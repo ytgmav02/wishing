@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valentine Week — Unlock the Wishes</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">❤</div>
+      <div>
+        <h1>Valentine Week</h1>
+        <p class="sub">Unlock each day’s wish (7–14) by beating the challenge.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" id="resetBtn" title="Reset progress">Reset</button>
+      <button class="btn" id="musicBtn" title="Toggle ambience">Ambience</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card hero">
+      <div class="heroText">
+        <h2>Hey Mahi😀Your Mission</h2>
+        <p>
+          Each day is locked. Click a date, complete the mini game/puzzle,
+          and reveal that day’s wish. Your progress is saved on this device.
+        </p>
+        <div class="progressWrap">
+          <div class="progressMeta">
+            <span id="progressText">0/8 unlocked</span>
+            <span class="pill" id="streakPill">Keep going ✨</span>
+          </div>
+          <div class="progressBar">
+            <div class="progressFill" id="progressFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="heroArt" aria-hidden="true">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="orb o3"></div>
+        <div class="heartPulse">❤</div>
+      </div>
+    </section>
+
+    <section class="grid card">
+      <div class="gridHeader">
+        <h3>Choose a date</h3>
+        <p class="muted">Locked days show a 🔒. Unlocked days show ✨.</p>
+      </div>
+
+      <div class="dates" id="dates"></div>
+
+      <div class="tiny muted">
+        Tip: You can only unlock Feb 7 → Feb 14 in order if you want. (Optional)
+      </div>
+
+      <label class="toggleRow">
+        <input type="checkbox" id="orderToggle" />
+        <span>Require unlock in order (7 → 14)</span>
+      </label>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="muted">Made with ❤ for Valentine Week</span>
+  </footer>
+
+  <!-- tiny hidden audio (optional) -->
+  <audio id="ambience" loop preload="auto">
+    <!-- Put your own mp3/ogg in assets and update src if you want -->
+  </audio>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

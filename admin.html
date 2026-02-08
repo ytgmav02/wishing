@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Visitor Tracking</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    .adminContainer {
+      width: min(1200px, 95vw);
+      margin: 24px auto 60px;
+    }
+
+    .adminHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      gap: 12px;
+    }
+
+    .adminHeader h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .statsGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .statCard {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .statCard .statNumber {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--hot);
+      margin-bottom: 4px;
+    }
+
+    .statCard .statLabel {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .visitorTable {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .visitorTable thead {
+      background: rgba(255, 77, 109, 0.1);
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .visitorTable th {
+      padding: 14px;
+      text-align: left;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .visitorTable td {
+      padding: 14px;
+      border-bottom: 1px solid var(--stroke);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .visitorTable tbody tr:hover {
+      background: rgba(255, 77, 109, 0.05);
+    }
+
+    .visitorTable tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .nameBadge {
+      color: var(--hot);
+      font-weight: 600;
+    }
+
+    .countBadge {
+      display: inline-block;
+      background: rgba(53, 208, 127, 0.2);
+      color: var(--good);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .emptyState {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .emptyState p {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .actionButtons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn.danger {
+      background: rgba(255, 77, 109, 0.2);
+      border-color: rgba(255, 77, 109, 0.4);
+      color: var(--hot);
+    }
+
+    .btn.danger:hover {
+      background: rgba(255, 77, 109, 0.3);
+      border-color: rgba(255, 77, 109, 0.6);
+    }
+
+    .sortControls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sortBtn {
+      padding: 8px 12px;
+      font-size: 12px;
+      border: 1px solid var(--stroke);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sortBtn:hover {
+      color: var(--text);
+      border-color: rgba(255, 77, 109, 0.5);
+    }
+
+    .sortBtn.active {
+      background: rgba(255, 77, 109, 0.2);
+      color: var(--hot);
+      border-color: rgba(255, 77, 109, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">👑</div>
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p class="sub">Track who's visiting and unlocking wishes.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn ghost" href="index.html">← Back to App</a>
+    </div>
+  </header>
+
+  <main class="adminContainer">
+    <section class="card">
+      <div class="adminHeader">
+        <h2>Visitor Tracking</h2>
+        <div class="actionButtons">
+          <button class="btn" id="unlockAllBtn">Unlock All</button>
+          <button class="btn danger" id="clearBtn">Clear Data</button>
+          <button class="btn" id="exportBtn">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="statsGrid" id="statsGrid"></div>
+
+      <div class="sortControls">
+        <span style="color: var(--muted); font-size: 12px; line-height: 32px;">Sort by:</span>
+        <button class="sortBtn active" id="sortRecent">Recent</button>
+        <button class="sortBtn" id="sortName">Name</button>
+        <button class="sortBtn" id="sortClicks">Clicks</button>
+      </div>
+
+      <div id="visitorContainer">
+        <table class="visitorTable" id="visitorTable">
+          <thead>
+            <tr>
+              <th>Device</th>
+              <th>First Visit</th>
+              <th>Last Visit</th>
+              <th>Clicks</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+          </tbody>
+        </table>
+        <div class="emptyState" id="emptyState" style="display: none;">
+          <p>No visitors yet. Share the link to get started! 💕</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/admin.js"></script>
+</body>
+</html>

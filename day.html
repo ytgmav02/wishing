@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day Challenge</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">❤</div>
+      <div>
+        <h1 id="dayTitle">Day</h1>
+        <p class="sub" id="daySubtitle">Complete the challenge to unlock the wish.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn ghost" href="index.html">← Home</a>
+      <button class="btn" id="hintBtn">Hint</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="rowSplit">
+        <div>
+          <h2 id="challengeTitle">Challenge</h2>
+          <p class="muted" id="challengeDesc"></p>
+        </div>
+        <div class="pill" id="statusPill">Locked 🔒</div>
+      </div>
+
+      <div class="challengeArea" id="challengeArea"></div>
+
+      <div class="rowSplit">
+        <button class="btn ghost" id="backBtn">Back</button>
+        <button class="btn" id="checkBtn">Check / Submit</button>
+      </div>
+    </section>
+
+    <section class="card wishCard" id="wishCard" hidden>
+      <h2>✨ Unlocked Wish ✨</h2>
+      <p id="wishText" class="wishText"></p>
+      <div class="rowSplit">
+        <button class="btn ghost" id="playAgainBtn">Play Again</button>
+        <button class="btn ghost" id="shareBtn">Copy Wish</button>
+        <a class="btn" href="index.html">Return Home</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modalBox card">
+      <h3 id="modalTitle">Hint</h3>
+      <p id="modalBody" class="muted"></p>
+      <div class="rowSplit">
+        <span></span>
+        <button class="btn" id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confetti" class="confetti"></canvas>
+  <script src="assets/day.js"></script>
+</body>
+</html>
