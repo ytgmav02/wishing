@@ -100,8 +100,8 @@ const CONFIG = {
   },
   14: {
     name: "Valentine’s Day",
-    challenge: { type: "final", text: "Type: I choose you" , answer: "i choose you" },
-    hint: "It’s a simple sentence. Powerful, honest, final.",
+    challenge: { type: "valentines", question: "Wanna be my crime partner for the rest of my life?🙃" },
+    hint: "Just follow the journey of love 💕",
     wish: "💖 Valentine’s Day Wish: You’re my favorite person—my calm, my chaos, my comfort. Happy Valentine’s Day."
   }
 };
@@ -116,6 +116,210 @@ function setModal(open, title="", body=""){
   document.getElementById("modalTitle").textContent = title;
   document.getElementById("modalBody").textContent = body;
   modal.hidden = !open;
+}
+
+function showCustomPopup(message, duration = null, id = null) {
+  const popup = document.createElement("div");
+  if (id) popup.id = id;
+  popup.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 9999;
+    max-width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: center;
+    animation: popupSlide 0.3s ease-out;
+  `;
+  
+  const messageEl = document.createElement("p");
+  messageEl.style.cssText = `
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  `;
+  messageEl.textContent = message;
+  popup.appendChild(messageEl);
+  
+  document.body.appendChild(popup);
+  
+  // Add overlay
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+    animation: fadeIn 0.3s ease-out;
+  `;
+  document.body.appendChild(overlay);
+  
+  if (duration) {
+    setTimeout(() => {
+      popup.remove();
+      overlay.remove();
+    }, duration);
+  }
+  
+  return { popup, overlay };
+}
+
+function showSorryPopup() {
+  const sorryMsg = `i appreciate that.
+I am really sorry that i couldn't make you feel love.
+it's okay
+i hope you will be very happy on your own......`;
+  
+  showCustomPopup(sorryMsg, 6000);
+  
+  setTimeout(() => {
+    showFunnyPopup();
+  }, 6000);
+}
+
+function showFunnyPopup() {
+  const popup = document.createElement("div");
+  popup.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 9999;
+    max-width: 90%;
+    text-align: center;
+    animation: popupSlide 0.3s ease-out;
+  `;
+  
+  const messageEl = document.createElement("p");
+  messageEl.style.cssText = `
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  `;
+  messageEl.innerHTML = `ki???? ki portico? ahhh?<br>ki vabcho<br>eto sohoje char paba?🤪vule jao sopno ta<br>you have no other option left😁<br>just click YES`;
+  popup.appendChild(messageEl);
+  
+  const yesBtn = document.createElement("button");
+  yesBtn.textContent = "YES";
+  yesBtn.style.cssText = `
+    padding: 12px 30px;
+    font-size: 16px;
+    background: #FF4D6D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.2s;
+  `;
+  yesBtn.onhover = 'this.style.background = "#FF2E54"';
+  yesBtn.addEventListener("click", () => {
+    popup.remove();
+    overlay.remove();
+    selectedOption = 1;
+    showRingPopup();
+  });
+  popup.appendChild(yesBtn);
+  
+  document.body.appendChild(popup);
+  
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+    animation: fadeIn 0.3s ease-out;
+  `;
+  document.body.appendChild(overlay);
+}
+
+function showRingPopup() {
+  const popup = document.createElement("div");
+  popup.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 9999;
+    max-width: 90%;
+    text-align: center;
+    animation: popupSlide 0.3s ease-out;
+  `;
+  
+  const ringEl = document.createElement("div");
+  ringEl.textContent = "💍";
+  ringEl.style.cssText = `
+    font-size: 80px;
+    margin: 0 0 20px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+  `;
+  ringEl.addEventListener("mouseover", () => {
+    ringEl.style.transform = "scale(1.1)";
+  });
+  ringEl.addEventListener("mouseout", () => {
+    ringEl.style.transform = "scale(1)";
+  });
+  ringEl.addEventListener("click", () => {
+    popup.remove();
+    overlay.remove();
+    // Unlock the day
+    const currentDay = Number(qs("d"));
+    unlockDay(currentDay);
+    alert("Unlocked! Scroll down for your wish ✨");
+  });
+  popup.appendChild(ringEl);
+  
+  const textEl = document.createElement("p");
+  textEl.textContent = "Take this😊";
+  textEl.style.cssText = `
+    margin: 10px 0 0 0;
+    font-size: 18px;
+    color: #333;
+  `;
+  popup.appendChild(textEl);
+  
+  document.body.appendChild(popup);
+  
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+    animation: fadeIn 0.3s ease-out;
+  `;
+  document.body.appendChild(overlay);
 }
 
 function confettiBurst(){
@@ -305,6 +509,36 @@ function renderChallenge(day){
       <p class="muted" style="margin:0 0 10px">${cfg.challenge.text}</p>
       <input class="input" id="final" placeholder="Type here..." autocomplete="off" />
     `;
+  } else if (type === "valentines") {
+    const q = document.createElement("div");
+    q.innerHTML = `<p style="margin:0 0 10px"><b>${cfg.challenge.question}</b></p>`;
+    area.appendChild(q);
+
+    const grid = document.createElement("div");
+    grid.className = "optionGrid";
+    grid.id = "valentinesGrid";
+    
+    const yesBtn = document.createElement("div");
+    yesBtn.className = "option";
+    yesBtn.textContent = "Yes";
+    yesBtn.id = "valentinesYes";
+    yesBtn.addEventListener("click", () => {
+      selectedOption = 1;
+      [...grid.children].forEach(c => c.classList.remove("selected"));
+      yesBtn.classList.add("selected");
+      showRingPopup();
+    });
+    grid.appendChild(yesBtn);
+    
+    const noBtn = document.createElement("div");
+    noBtn.className = "option";
+    noBtn.textContent = "No";
+    noBtn.id = "valentinesNo";
+    noBtn.addEventListener("click", () => {
+      showSorryPopup();
+    });
+    grid.appendChild(noBtn);
+    area.appendChild(grid);
   }
 }
 
@@ -318,6 +552,7 @@ function challengeDescription(ch){
     case "memory": return "A classic memory match mini game.";
     case "riddle": return "A riddle. Think simple.";
     case "final": return "A final vow. Type the exact phrase.";
+    case "valentines": return "The final question. Choose wisely.";
     default: return "Complete the challenge.";
   }
 }
@@ -458,6 +693,9 @@ function checkChallenge(day){
   if (ch.type === "final"){
     const v = document.getElementById("final")?.value;
     return normalize(v) === normalize(ch.answer);
+  }
+  if (ch.type === "valentines"){
+    return selectedOption === 1;
   }
   return false;
 }
